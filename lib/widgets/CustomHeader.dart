@@ -5,6 +5,7 @@ class CustomHeader extends StatelessWidget {
   final String? userName;
   final VoidCallback? onLogout;
   final VoidCallback? onNotificationTap;
+  final VoidCallback? onMenuTap;
   final bool showDrawerButton;
   final bool showUserInfo;
 
@@ -14,6 +15,7 @@ class CustomHeader extends StatelessWidget {
     this.userName,
     this.onLogout,
     this.onNotificationTap,
+    this.onMenuTap,
     this.showDrawerButton = true,
     this.showUserInfo = true,
   }) : super(key: key);
@@ -28,7 +30,7 @@ class CustomHeader extends StatelessWidget {
 
   Widget _buildMobileHeader(BuildContext context) {
     return Container(
-      color: const Color(0xFF660B05), // primary color from theme
+      color: const Color(0xFF660B05),
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -36,15 +38,11 @@ class CustomHeader extends StatelessWidget {
             children: [
               // Menú hamburguesa (solo si se requiere)
               if (showDrawerButton)
-                Builder(
-                  builder: (context) => GestureDetector(
-                    onTap: () => Scaffold.of(context).openDrawer(),
-                    child: const Icon(
-                      Icons.menu,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
+                IconButton(
+                  icon: const Icon(Icons.menu, color: Colors.white, size: 24),
+                  onPressed: onMenuTap ?? () {
+                    // Acción por defecto si no se proporciona callback
+                  },
                 ),
               if (showDrawerButton) const SizedBox(width: 12),
 
@@ -73,13 +71,9 @@ class CustomHeader extends StatelessWidget {
               ),
 
               // Notificaciones
-              GestureDetector(
-                onTap: onNotificationTap ?? () {},
-                child: const Icon(
-                  Icons.notifications_outlined,
-                  color: Colors.white,
-                  size: 20,
-                ),
+              IconButton(
+                icon: const Icon(Icons.notifications_outlined, color: Colors.white, size: 20),
+                onPressed: onNotificationTap ?? () {},
               ),
               const SizedBox(width: 12),
 
@@ -106,13 +100,9 @@ class CustomHeader extends StatelessWidget {
               // Botón de cerrar sesión
               if (onLogout != null) ...[
                 const SizedBox(width: 8),
-                GestureDetector(
-                  onTap: onLogout,
-                  child: const Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                    size: 20,
-                  ),
+                IconButton(
+                  icon: const Icon(Icons.logout, color: Colors.white, size: 20),
+                  onPressed: onLogout,
                 ),
               ],
             ],
@@ -175,13 +165,9 @@ class CustomHeader extends StatelessWidget {
             ),
 
             // Notificaciones
-            GestureDetector(
-              onTap: onNotificationTap ?? () {},
-              child: const Icon(
-                Icons.notifications_outlined,
-                color: Colors.white,
-                size: 20,
-              ),
+            IconButton(
+              icon: const Icon(Icons.notifications_outlined, color: Colors.white, size: 20),
+              onPressed: onNotificationTap ?? () {},
             ),
             const SizedBox(width: 16),
 
@@ -222,13 +208,9 @@ class CustomHeader extends StatelessWidget {
 
             // Botón de cerrar sesión
             if (onLogout != null)
-              GestureDetector(
-                onTap: onLogout,
-                child: const Icon(
-                  Icons.logout,
-                  color: Colors.white,
-                  size: 20,
-                ),
+              IconButton(
+                icon: const Icon(Icons.logout, color: Colors.white, size: 20),
+                onPressed: onLogout,
               ),
           ],
         ),
