@@ -3,7 +3,7 @@ import '../../widgets/CustomBottomNavigation.dart';
 import '../../widgets/CustomHeader.dart';
 import '../../widgets/CustomDrawer.dart';
 import '../../widgets/FeaturedStudentsCard.dart';
-import '../../widgets/GestionVacantesScreen.dart';
+import 'GestionVacantesScreen.dart';
 import '../../widgets/QuickActionsCard.dart';
 import '../../widgets/StatsGrid.dart';
 import '../../widgets/WelcomeSection.dart';

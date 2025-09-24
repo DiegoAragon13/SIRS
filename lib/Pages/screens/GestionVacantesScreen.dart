@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sirs/widgets/vacantes_service.dart';
-import '../widgets/CustomHeader.dart';
-import '../widgets/CustomDrawer.dart';
-import 'CrearVacanteDialog.dart';
-import 'DetallesVacanteDialog.dart';
+import '../../widgets/CustomHeader.dart';
+import '../../widgets/CustomDrawer.dart';
+import '../../widgets/CustomBottomNavigation.dart';
+import '../../widgets/CrearVacanteDialog.dart';
+import '../../widgets/DetallesVacanteDialog.dart';
 
 class GestionVacantesScreen extends StatefulWidget {
   const GestionVacantesScreen({Key? key}) : super(key: key);
@@ -174,7 +175,10 @@ class _GestionVacantesScreenState extends State<GestionVacantesScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNavigation(),
+      bottomNavigationBar: CustomBottomNavigation(
+        currentIndex: _drawerSelectedIndex,
+        onTabSelected: _handleNavigation,
+      ),
     );
   }
 
@@ -450,55 +454,5 @@ class _GestionVacantesScreenState extends State<GestionVacantesScreen> {
     );
   }
 
-  Widget _buildBottomNavigation() {
-    return Container(
-      height: 70,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          _buildNavItem(Icons.bar_chart, 'Resumen', 0),
-          _buildNavItem(Icons.work_outline, 'Vacantes', 1),
-          _buildNavItem(Icons.school_outlined, 'Estudiantes', 2),
-          _buildNavItem(Icons.assignment_outlined, 'Solicitudes', 3),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildNavItem(IconData icon, String label, int index) {
-    bool isSelected = _drawerSelectedIndex == index;
-    return Expanded(
-      child: InkWell(
-        onTap: () => _handleNavigation(index),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 24,
-              color: isSelected ? const Color(0xFF660B05) : Colors.grey.shade500,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                color: isSelected ? const Color(0xFF660B05) : Colors.grey.shade500,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
