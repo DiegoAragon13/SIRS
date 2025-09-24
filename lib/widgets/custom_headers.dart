@@ -25,7 +25,7 @@ class CustomAppHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     // Determinar si es móvil o desktop
     bool isMobile = MediaQuery.of(context).size.width < 1024;
-    
+
     return isMobile ? _buildMobileHeader(context) : _buildDesktopHeader(context);
   }
 
@@ -50,7 +50,7 @@ class CustomAppHeader extends StatelessWidget {
                   ),
                 ),
               if (showDrawerButton) const SizedBox(width: 12),
-              
+
               // Título y subtítulo
               Expanded(
                 child: Column(
@@ -75,7 +75,7 @@ class CustomAppHeader extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               // Notificaciones
               GestureDetector(
                 onTap: onNotificationTap ?? () {},
@@ -86,7 +86,7 @@ class CustomAppHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              
+
               // Avatar del usuario
               Container(
                 width: 32,
@@ -106,7 +106,7 @@ class CustomAppHeader extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               // Botón de logout eliminado - ahora va en el drawer
             ],
           ),
@@ -142,7 +142,7 @@ class CustomAppHeader extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 16),
-            
+
             // Título y descripción
             Expanded(
               child: Column(
@@ -167,7 +167,7 @@ class CustomAppHeader extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             // Notificaciones
             GestureDetector(
               onTap: onNotificationTap ?? () {},
@@ -178,7 +178,7 @@ class CustomAppHeader extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 16),
-            
+
             // Info del usuario (solo en desktop si se requiere)
             if (showUserInfo && userName != null) ...[
               Row(
@@ -213,7 +213,7 @@ class CustomAppHeader extends StatelessWidget {
               ),
               const SizedBox(width: 16),
             ],
-            
+
             // Botón de logout eliminado - ahora va en el drawer
           ],
         ),
@@ -291,7 +291,7 @@ class CustomDrawer extends StatelessWidget {
       onLogout!();
       return;
     }
-    
+
     // Logout por defecto: regresar a login screen
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -363,8 +363,8 @@ class CustomDrawer extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                   margin: const EdgeInsets.only(bottom: 8),
                   decoration: BoxDecoration(
-                    color: isActive 
-                        ? const Color(0xFF660B05) 
+                    color: isActive
+                        ? const Color(0xFF660B05)
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -373,8 +373,8 @@ class CustomDrawer extends StatelessWidget {
                       Icon(
                         item.icon,
                         size: 20,
-                        color: isActive 
-                            ? Colors.white 
+                        color: isActive
+                            ? Colors.white
                             : const Color(0xFF6B7280),
                       ),
                       const SizedBox(width: 12),
@@ -383,8 +383,8 @@ class CustomDrawer extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: isActive 
-                              ? Colors.white 
+                          color: isActive
+                              ? Colors.white
                               : const Color(0xFF374151),
                         ),
                       ),
@@ -393,9 +393,9 @@ class CustomDrawer extends StatelessWidget {
                 ),
               );
             }).toList(),
-            
+
             const Spacer(), // Para empujar el botón hacia abajo
-            
+
             // Botón de CERRAR SESIÓN con estilo original
             Container(
               width: double.infinity,
@@ -463,8 +463,8 @@ class CustomBottomNavigation extends StatelessWidget {
                   child: Container(
                     height: double.infinity,
                     decoration: BoxDecoration(
-                      color: isActive 
-                          ? const Color(0xFF660B05).withOpacity(0.1) 
+                      color: isActive
+                          ? const Color(0xFF660B05).withOpacity(0.1)
                           : Colors.transparent,
                     ),
                     child: Column(
@@ -473,16 +473,16 @@ class CustomBottomNavigation extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: isActive 
-                                ? const Color(0xFF660B05) 
+                            color: isActive
+                                ? const Color(0xFF660B05)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(
                             item.icon,
                             size: 24,
-                            color: isActive 
-                                ? Colors.white 
+                            color: isActive
+                                ? Colors.white
                                 : const Color(0xFF6B7280),
                           ),
                         ),
@@ -494,8 +494,8 @@ class CustomBottomNavigation extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-                              color: isActive 
-                                  ? const Color(0xFF660B05) 
+                              color: isActive
+                                  ? const Color(0xFF660B05)
                                   : const Color(0xFF6B7280),
                             ),
                             textAlign: TextAlign.center,

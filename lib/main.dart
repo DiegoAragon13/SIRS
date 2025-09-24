@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_core/firebase_core.dart'; // Agregar este import
+import 'package:firebase_core/firebase_core.dart';
 import 'package:sirs/utils/themes/themes.dart';
 import 'Pages/login_screen.dart';
+import 'package:sirs/Pages/screens/main_navigation_screen.dart';
 import 'firebase_options.dart';
 
-void main() async { // Hacer la función async
+void main() async {
   // Asegurar que los widgets estén inicializados
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -29,6 +30,11 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       home: const LoginScreen(),
       debugShowCheckedModeBanner: false,
+      // Rutas nombradas para mejor navegación
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/main': (context) => const MainNavigationScreen(),
+      },
     );
   }
 }
