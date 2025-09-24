@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sirs/Pages/screens/PortalEmpresaScreen.dart';
+import 'package:sirs/Pages/Dashboard/overview_screen_new.dart';
 
 
 
@@ -18,6 +20,8 @@ class _NavigationForPagesState extends State<NavigationForPages> {
     //Alerts(),
     //AnalyticsPage(), // Asegúrate de que tu clase sea AnalyticsPage
     //SettingsPage(),  // Asegúrate de que tu clase sea SettingsPage
+    PortalEmpresaScreen(),
+
   ];
 
   void _onItemTapped(int index) {

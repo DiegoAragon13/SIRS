@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_core/firebase_core.dart'; // Agregar este import
 import 'package:sirs/utils/themes/themes.dart';
 import 'Pages/login_screen.dart';
+import 'firebase_options.dart';
 
+void main() async { // Hacer la función async
+  // Asegurar que los widgets estén inicializados
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
+  // Inicializar Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
