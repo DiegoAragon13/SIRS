@@ -4,7 +4,7 @@ import 'Dashboard/overview_screen_new.dart';
 import 'Dashboard/students_screen_new.dart';
 import 'Dashboard/documents_screen_new.dart';
 import 'Dashboard/companies_screen_new.dart';
-
+// Importar otros screens según sea necesario
 class NewAdminDashboard extends StatefulWidget {
   const NewAdminDashboard({Key? key}) : super(key: key);
 
