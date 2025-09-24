@@ -49,12 +49,12 @@ class CustomDropdown extends StatelessWidget {
                     child: Text('Alumno'),
                   ),
                   DropdownMenuItem(
-                    value: 'Profesor',
-                    child: Text('Profesor'),
+                    value: 'ITD',
+                    child: Text('ITD'),
                   ),
                   DropdownMenuItem(
-                    value: 'Administrador',
-                    child: Text('Administrador'),
+                    value: 'Empresa',
+                    child: Text('Empresa'),
                   ),
                 ],
                 onChanged: (value) => onChanged(value!),

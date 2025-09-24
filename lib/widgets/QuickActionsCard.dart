@@ -1,66 +1,57 @@
 import 'package:flutter/material.dart';
 
 class QuickActionsCard extends StatelessWidget {
-  const QuickActionsCard({Key? key}) : super(key: key);
+  final Function(String) onActionPressed;
+
+  const QuickActionsCard({
+    Key? key,
+    required this.onActionPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
       ),
-      padding: EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Acciones Rápidas',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).textTheme.headlineSmall?.color,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Acciones Rápidas',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade800,
+              ),
             ),
-          ),
-          SizedBox(height: 16),
-          QuickActionButton(
-            icon: Icons.add,
-            text: 'Crear Nueva Vacante',
-            backgroundColor: Theme.of(context).primaryColor,
-            textColor: Colors.white,
-            onPressed: () {
-              // Acción crear vacante
-            },
-          ),
-          SizedBox(height: 12),
-          QuickActionButton(
-            icon: Icons.visibility_outlined,
-            text: 'Ver Solicitudes Pendientes',
-            backgroundColor: Colors.white,
-            textColor: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
-            onPressed: () {
-              // Acción ver solicitudes
-            },
-          ),
-          SizedBox(height: 12),
-          QuickActionButton(
-            icon: Icons.chat_outlined,
-            text: 'Contactar Estudiantes',
-            backgroundColor: Colors.white,
-            textColor: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
-            onPressed: () {
-              // Acción contactar estudiantes
-            },
-          ),
-        ],
+            const SizedBox(height: 16),
+            Column(
+              children: [
+                // Botón Crear Nueva Vacante
+                QuickActionButton(
+                  icon: Icons.add,
+                  text: 'Crear Nueva Vacante',
+                  backgroundColor: const Color(0xFF660B05),
+                  textColor: Colors.white,
+                  onPressed: () => onActionPressed('crear_vacante'),
+                ),
+                const SizedBox(height: 12),
+                // Botón Ver Vacantes
+                QuickActionButton(
+                  icon: Icons.work_outline,
+                  text: 'Ver Vacantes',
+                  backgroundColor: Colors.white,
+                  textColor: const Color(0xFF660B05),
+                  onPressed: () => onActionPressed('ver_vacantes'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -103,7 +94,7 @@ class QuickActionButton extends StatelessWidget {
         child: Row(
           children: [
             Icon(icon, size: 20),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Text(
               text,
               style: TextStyle(

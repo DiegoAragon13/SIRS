@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
 import '../../widgets/CustomBottomNavigation.dart';
 import '../../widgets/CustomHeader.dart';
 import '../../widgets/CustomDrawer.dart';
 import '../../widgets/FeaturedStudentsCard.dart';
+import '../../widgets/GestionVacantesScreen.dart';
 import '../../widgets/QuickActionsCard.dart';
 import '../../widgets/StatsGrid.dart';
 import '../../widgets/WelcomeSection.dart';
@@ -28,22 +28,88 @@ class _PortalEmpresaScreenState extends State<PortalEmpresaScreen> {
       Navigator.pop(_scaffoldKey.currentContext!);
     }
 
-    // Lógica para cambiar contenido según el índice
     _navigateToSection(index);
   }
 
   void _navigateToSection(int index) {
-    // Implementar lógica de navegación aquí
+    // Si ya estamos en GestionVacantesScreen y queremos volver al Resumen
+    if (ModalRoute.of(context)?.settings.name == '/gestion-vacantes' && index == 0) {
+      Navigator.pop(context);
+      return;
+    }
+
     switch (index) {
       case 0: // Resumen
+      // Ya estamos en la pantalla principal
         break;
       case 1: // Vacantes
+        _navigateToGestionVacantes();
         break;
       case 2: // Estudiantes
+        _showComingSoonMessage('Estudiantes');
         break;
       case 3: // Solicitudes
+        _showComingSoonMessage('Solicitudes');
         break;
     }
+  }
+
+  void _showComingSoonMessage(String section) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$section - Próximamente'),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _navigateToGestionVacantes() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const GestionVacantesScreen(),
+        settings: const RouteSettings(name: '/gestion-vacantes'),
+      ),
+    );
+  }
+
+  void _onQuickActionPressed(String action) {
+    switch (action) {
+      case 'crear_vacante':
+        _navigateToGestionVacantes();
+        break;
+      case 'ver_vacantes':
+        _navigateToGestionVacantes();
+        break;
+    }
+  }
+
+  void _onLogout() {
+    // Implementar lógica de logout
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cerrar sesión'),
+        content: const Text('¿Estás seguro de que quieres cerrar sesión?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // Aquí iría la lógica real de logout
+            },
+            child: const Text('Cerrar sesión'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onNotificationTap() {
+    _showComingSoonMessage('Notificaciones');
   }
 
   @override
@@ -60,10 +126,13 @@ class _PortalEmpresaScreenState extends State<PortalEmpresaScreen> {
           CustomHeader(
             userAvatar: 'CR',
             userName: 'Carlos Ruiz',
-            showDrawerButton: true,
+            onLogout: _onLogout,
+            onNotificationTap: _onNotificationTap,
             onMenuTap: () {
               _scaffoldKey.currentState?.openDrawer();
             },
+            showDrawerButton: true,
+            showUserInfo: true,
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -74,7 +143,9 @@ class _PortalEmpresaScreenState extends State<PortalEmpresaScreen> {
                   const SizedBox(height: 20),
                   const StatsGrid(),
                   const SizedBox(height: 20),
-                  const QuickActionsCard(),
+                  QuickActionsCard(
+                    onActionPressed: _onQuickActionPressed,
+                  ),
                   const SizedBox(height: 20),
                   const FeaturedStudentsCard(),
                   const SizedBox(height: 80),
@@ -84,7 +155,10 @@ class _PortalEmpresaScreenState extends State<PortalEmpresaScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: const CustomBottomNavigation(),
+      bottomNavigationBar: CustomBottomNavigation(
+        currentIndex: _drawerSelectedIndex,
+        onTabSelected: _syncNavigation,
+      ),
     );
   }
 }

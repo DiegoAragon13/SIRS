@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import '../widgets/custom_buttom.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/custom_logo.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/custom_dropdown.dart';
 import 'new_admin_dashboard.dart';
+import 'package:sirs/Pages/screens/PortalEmpresaScreen.dart';
+import 'package:sirs/widgets/custom_buttom.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,6 +19,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   String _selectedUserType = 'Alumno';
   bool _isPasswordVisible = false;
+  bool _isLoading = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -25,24 +29,88 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _handleLogin() {
-    // Verificar si es administrador
-    if (_selectedUserType == 'Administrador') {
-      // Navegar al dashboard de administrador
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const NewAdminDashboard(),
-        ),
-      );
-    } else {
-      // Para otros tipos de usuario, mostrar mensaje temporal
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Iniciando sesión como $_selectedUserType...'),
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
-      );
+  void _handleLogin() async {
+    // Validar campos
+    if (_emailController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
+      _showErrorMessage('Por favor completa todos los campos');
+      return;
     }
+
+    // Validar que no sea Alumno (aún no implementado)
+    if (_selectedUserType == 'Alumno') {
+      _showErrorMessage('El acceso para Alumnos aún no está disponible');
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Autenticar con Firebase
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      if (userCredential.user != null) {
+        // Autenticación exitosa, navegar según el tipo de usuario
+        if (_selectedUserType == 'ITD') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const NewAdminDashboard(),
+            ),
+          );
+        } else if (_selectedUserType == 'Empresa') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const PortalEmpresaScreen(),
+            ),
+          );
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = 'No se encontró una cuenta con este correo electrónico';
+          break;
+        case 'wrong-password':
+          errorMessage = 'Contraseña incorrecta';
+          break;
+        case 'invalid-email':
+          errorMessage = 'El formato del correo electrónico no es válido';
+          break;
+        case 'user-disabled':
+          errorMessage = 'Esta cuenta ha sido deshabilitada';
+          break;
+        case 'too-many-requests':
+          errorMessage = 'Demasiados intentos fallidos. Intenta más tarde';
+          break;
+        case 'invalid-credential':
+          errorMessage = 'Las credenciales proporcionadas no son válidas';
+          break;
+        default:
+          errorMessage = 'Error de autenticación: ${e.message}';
+      }
+      _showErrorMessage(errorMessage);
+    } catch (e) {
+      _showErrorMessage('Error inesperado. Intenta nuevamente');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 4),
+      ),
+    );
   }
 
   @override
@@ -171,14 +239,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       // Botón de login
                       CustomButton(
-                        text: 'Iniciar Sesión',
-                        onPressed: _handleLogin,
+                        text: _isLoading ? 'Iniciando Sesión...' : 'Iniciar Sesión',
+                        onPressed: _isLoading ? null : _handleLogin,
                       ),
 
                       const SizedBox(height: 24),
 
                       // Credenciales de demostración
-                     // const DemoCredentials(),
+                      // const DemoCredentials(),
                     ],
                   ),
                 ),

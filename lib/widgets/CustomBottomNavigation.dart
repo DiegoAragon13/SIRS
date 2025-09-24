@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class CustomBottomNavigation extends StatefulWidget {
-  const CustomBottomNavigation({Key? key}) : super(key: key);
+class CustomBottomNavigation extends StatelessWidget {
+  final int currentIndex;
+  final Function(int) onTabSelected;
 
-  @override
-  State<CustomBottomNavigation> createState() => _CustomBottomNavigationState();
-}
-
-class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
-  int _selectedIndex = 0;
+  const CustomBottomNavigation({
+    Key? key,
+    required this.currentIndex,
+    required this.onTabSelected,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +31,26 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
             BottomNavItem(
               icon: Icons.bar_chart,
               label: 'Resumen',
-              isSelected: _selectedIndex == 0,
-              onTap: () => setState(() => _selectedIndex = 0),
+              isSelected: currentIndex == 0,
+              onTap: () => onTabSelected(0),
             ),
             BottomNavItem(
               icon: Icons.work_outline,
               label: 'Vacantes',
-              isSelected: _selectedIndex == 1,
-              onTap: () => setState(() => _selectedIndex = 1),
+              isSelected: currentIndex == 1,
+              onTap: () => onTabSelected(1),
             ),
             BottomNavItem(
               icon: Icons.school_outlined,
               label: 'Estudiantes',
-              isSelected: _selectedIndex == 2,
-              onTap: () => setState(() => _selectedIndex = 2),
+              isSelected: currentIndex == 2,
+              onTap: () => onTabSelected(2),
             ),
             BottomNavItem(
               icon: Icons.assignment_outlined,
               label: 'Solicitudes',
-              isSelected: _selectedIndex == 3,
-              onTap: () => setState(() => _selectedIndex = 3),
+              isSelected: currentIndex == 3,
+              onTap: () => onTabSelected(3),
             ),
           ],
         ),
