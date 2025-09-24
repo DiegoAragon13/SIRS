@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '../Pages/login_screen.dart';
 import 'package:sirs/Pages/servicioalumno.dart';
 import '../widgets/buttombarpato.dart';
 import '../widgets/progress_widget.dart';
 import '../widgets/recent_activity_widget.dart';
 import '../widgets/upcoming_tasks_widget.dart';
 import '../widgets/notifications_widget.dart';
-import 'package:sirs/widgets/custom_headers.dart';
+import '../widgets/custom_headers.dart';
+import 'package:sirs/utils/chat_overlay_wrapper.dart';
+import '../Pages/login_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -18,23 +19,24 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   String _activeView = "overview";
   int _selectedBottomIndex = 0;
-  final List<NavigationItem> _navigationItems = DashboardNavigationHelper.getDefaultNavigationItems();
+  bool _showChatBot = false;
 
-  // Método para cambiar entre las diferentes vistas del bottom navigation
+  final List<NavigationItem> _navigationItems =
+  DashboardNavigationHelper.getDefaultNavigationItems();
+
   Widget _buildCurrentView() {
     switch (_selectedBottomIndex) {
-      case 0: // Home
+      case 0:
         return _buildHomeView();
-      case 1: // Servicio
-        return _buildServicioView();
-      case 2: // Residencia
+      case 1:
+        return const ServicioAlumnoPage();
+      case 2:
         return _buildResidenciaView();
       default:
         return _buildHomeView();
     }
   }
 
-  // Vista principal (Home/Dashboard)
   Widget _buildHomeView() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
@@ -49,28 +51,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
           UpcomingTasksWidget(),
           const SizedBox(height: 24),
           NotificationsWidget(),
-          const SizedBox(height: 100), // Espacio para que no tape el bottom nav
+          const SizedBox(height: 100),
         ],
       ),
     );
   }
 
-  // Vista de Servicio - AHORA USA TU PÁGINA REAL
-  Widget _buildServicioView() {
-    return const ServicioAlumnoPage();
-  }
-
-  // Vista de Residencia
   Widget _buildResidenciaView() {
     return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.holiday_village,
-            size: 80,
-            color: Color(0xFF8B4513),
-          ),
+          Icon(Icons.holiday_village, size: 80, color: Color(0xFF8B4513)),
           SizedBox(height: 16),
           Text(
             'Módulo de Residencia',
@@ -83,17 +75,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
           SizedBox(height: 8),
           Text(
             'Aquí irá el contenido de residencia',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
         ],
       ),
     );
   }
 
-  // Método para obtener el título según la vista activa
   String _getCurrentTitle() {
     switch (_selectedBottomIndex) {
       case 0:
@@ -107,7 +95,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  // Método para obtener el subtítulo según la vista activa
   String _getCurrentSubtitle() {
     switch (_selectedBottomIndex) {
       case 0:
@@ -130,9 +117,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         navigationItems: _navigationItems,
         activeView: _activeView,
         onItemTap: (id) {
-          setState(() {
-            _activeView = id;
-          });
+          setState(() => _activeView = id);
         },
         onLogout: () {
           Navigator.of(context).pushReplacement(
@@ -140,34 +125,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
           );
         },
       ),
-      body: Column(
-        children: [
-          // Header dinámico - Solo se muestra en Home para evitar duplicación
-          if (_selectedBottomIndex == 0)
-            CustomAppHeader(
-              title: _getCurrentTitle(),
-              subtitle: _getCurrentSubtitle(),
-              userAvatar: "D",
-              userName: "Diego",
-              onNotificationTap: () {
-                print("Notificaciones pulsadas");
-              },
-            ),
-
-          // Contenido principal que cambia según la selección
-          Expanded(
-            child: _buildCurrentView(),
-          ),
-        ],
+      body: ChatOverlayWrapper(
+        child: Column(
+          children: [
+            if (_selectedBottomIndex == 0)
+              CustomAppHeader(
+                title: _getCurrentTitle(),
+                subtitle: _getCurrentSubtitle(),
+                userAvatar: "D",
+                userName: "Diego",
+                onNotificationTap: () {
+                  print("Notificaciones pulsadas");
+                },
+              ),
+            Expanded(child: _buildCurrentView()),
+          ],
+        ),
+        showChatBot: _showChatBot,
+        onClose: () => setState(() => _showChatBot = false),
+        chatContext: "Soy un bot, listo para ayudarte en los temas de servicio social y residencia. ¿En qué puedo ayudarte hoy?",
       ),
-
-      // Bottom navigation
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => setState(() => _showChatBot = !_showChatBot),
+        child: const Icon(Icons.chat),
+      ),
       bottomNavigationBar: Buttombarpato(
         initialIndex: _selectedBottomIndex,
         onTabSelected: (index) {
-          setState(() {
-            _selectedBottomIndex = index;
-          });
+          setState(() => _selectedBottomIndex = index);
         },
       ),
     );

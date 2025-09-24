@@ -5,6 +5,8 @@ import 'package:sirs/utils/themes/themes.dart';
 import 'Pages/login_screen.dart';
 import 'package:sirs/Pages/screens/main_navigation_screen.dart';
 import 'firebase_options.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'config/api_keys.dart';
 
 void main() async {
   // Asegurar que los widgets estén inicializados
@@ -13,6 +15,10 @@ void main() async {
   // Inicializar Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  Gemini.init(
+    apiKey: "AIzaSyAYmS9BusScCrkjnGC3X4wYt8_y8nVA_Hg",
   );
 
   runApp(const MyApp());
