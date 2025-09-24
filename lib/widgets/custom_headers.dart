@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/themes/themes.dart';
 
 class CustomAppHeader extends StatelessWidget {
   final String title;
@@ -32,7 +33,7 @@ class CustomAppHeader extends StatelessWidget {
 
   Widget _buildMobileHeader(BuildContext context) {
     return Container(
-      color: const Color(0xFF660B05), // primary color from theme
+      color: Theme.of(context).colorScheme.primary, // Using theme primary color
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -99,8 +100,8 @@ class CustomAppHeader extends StatelessWidget {
                 child: Center(
                   child: Text(
                     userAvatar,
-                    style: const TextStyle(
-                      color: Color(0xFF660B05),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                     ),
@@ -129,7 +130,7 @@ class CustomAppHeader extends StatelessWidget {
 
   Widget _buildDesktopHeader(BuildContext context) {
     return Container(
-      color: const Color(0xFF660B05),
+      color: Theme.of(context).colorScheme.primary,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Row(
@@ -142,11 +143,11 @@ class CustomAppHeader extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
                   'ITD',
                   style: TextStyle(
-                    color: Color(0xFF660B05),
+                    color: Theme.of(context).colorScheme.primary,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -171,8 +172,8 @@ class CustomAppHeader extends StatelessWidget {
                   if (subtitle != null)
                     Text(
                       subtitle!,
-                      style: const TextStyle(
-                        color: Color(0xFFFFE4E1),
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.8),
                         fontSize: 14,
                       ),
                     ),
@@ -205,8 +206,8 @@ class CustomAppHeader extends StatelessWidget {
                     child: Center(
                       child: Text(
                         userAvatar,
-                        style: const TextStyle(
-                          color: Color(0xFF660B05),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
