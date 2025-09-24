@@ -3,8 +3,8 @@ import '../widgets/custom_buttom.dart';
 import '../widgets/custom_logo.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/custom_dropdown.dart';
-import '../widgets/custom_button.dart';
 import '../widgets/demo_credentials.dart';
+import 'new_admin_dashboard.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -27,12 +27,23 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleLogin() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Iniciando sesión como $_selectedUserType...'),
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
-    );
+    // Verificar si es administrador
+    if (_selectedUserType == 'Administrador') {
+      // Navegar al dashboard de administrador
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const NewAdminDashboard(),
+        ),
+      );
+    } else {
+      // Para otros tipos de usuario, mostrar mensaje temporal
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Iniciando sesión como $_selectedUserType...'),
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
+      );
+    }
   }
 
   @override
