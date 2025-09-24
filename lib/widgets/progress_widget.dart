@@ -10,7 +10,7 @@ class ProgressWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: theme.colorScheme.tertiary.withOpacity(0.05), // fondo suave según tema
+        color: Colors.white, // fondo suave según tema
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -177,7 +177,7 @@ class ProgressWidget extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '480',
+            '500',
             style: theme.textTheme.headlineSmall?.copyWith(fontSize: 24),
           ),
         ],
