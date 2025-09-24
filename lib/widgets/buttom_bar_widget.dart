@@ -35,9 +35,8 @@ class BottomBarWidget extends StatelessWidget {
           unselectedItemColor: Colors.blueGrey,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.notifications_rounded), label: 'Alertas'),
-            BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Analytics'),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+            BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Servicio'),
+            BottomNavigationBarItem(icon: Icon(Icons.holiday_village), label: 'Notificaciones'),
           ],
           currentIndex: currentIndex,
           onTap: onTap,

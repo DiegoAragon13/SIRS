@@ -6,6 +6,8 @@ import '../widgets/custom_dropdown.dart';
 import 'new_admin_dashboard.dart';
 import 'package:sirs/Pages/screens/PortalEmpresaScreen.dart';
 import 'package:sirs/widgets/custom_buttom.dart';
+import 'package:sirs/Pages/dashboard_screen.dart';
+// Importamos la pantalla de estudiante
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -36,12 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    // Validar que no sea Alumno (aún no implementado)
-    if (_selectedUserType == 'Alumno') {
-      _showErrorMessage('El acceso para Alumnos aún no está disponible');
-      return;
-    }
-
     setState(() {
       _isLoading = true;
     });
@@ -65,6 +61,12 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const PortalEmpresaScreen(),
+            ),
+          );
+        } else if (_selectedUserType == 'Alumno') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) =>  DashboardScreen(),
             ),
           );
         }
@@ -244,9 +246,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
 
                       const SizedBox(height: 24),
-
-                      // Credenciales de demostración
-                      // const DemoCredentials(),
                     ],
                   ),
                 ),
