@@ -3,7 +3,6 @@ import '../widgets/custom_buttom.dart';
 import '../widgets/custom_logo.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/custom_dropdown.dart';
-import '../widgets/demo_credentials.dart';
 import 'new_admin_dashboard.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -179,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 24),
 
                       // Credenciales de demostración
-                      const DemoCredentials(),
+                     // const DemoCredentials(),
                     ],
                   ),
                 ),

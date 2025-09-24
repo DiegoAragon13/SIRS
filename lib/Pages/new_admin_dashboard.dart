@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../utils/themes/themes.dart';
 import '../widgets/custom_headers.dart';
 import 'Dashboard/overview_screen_new.dart';
 import 'Dashboard/students_screen_new.dart';
@@ -50,10 +49,8 @@ class _NewAdminDashboardState extends State<NewAdminDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeApp.lightTheme,
-      child: Scaffold(
-        backgroundColor: const Color(0xFFFFF0C4), // Using theme beige color
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor, // Using theme background
         body: Column(
           children: [
             // Header Modular (funciona para móvil y desktop)
@@ -88,7 +85,6 @@ class _NewAdminDashboardState extends State<NewAdminDashboard> {
         drawer: MediaQuery.of(context).size.width < 1024 
             ? _buildMobileDrawer() 
             : null,
-      ),
     );
   }
 
