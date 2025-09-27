@@ -18,7 +18,7 @@ void main() async {
   );
 
   Gemini.init(
-    apiKey: "AIzaSyAYmS9BusScCrkjnGC3X4wYt8_y8nVA_Hg",
+    apiKey: "your_apikey",
   );
 
   runApp(const MyApp());
